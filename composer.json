@@ -1,0 +1,31 @@
+{
+    "name": "earc/cast",
+    "description": "eArc - the explicit architecture framework - cast component",
+    "type": "library",
+    "version": "0.0-RC",
+    "minimum-stability": "dev",
+    "prefer-stable" : true,
+    "require": {
+        "php": ">=8.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Thomas Koudela",
+            "email": "thomas@koudela.net"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "eArc\\Cast\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "eArc\\CastTests\\" : "tests"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "8.5.*"
+    }
+}
