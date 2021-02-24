@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 /**
  * e-Arc Framework - the explicit Architecture Framework
  * cast component
@@ -13,10 +13,10 @@ namespace eArc\CastTests;
 
 class OriginParent
 {
-    public string $a = 'parent_A_origin';
-    protected string $b = 'parent_B_origin';
-    private string $c = 'parent_C_origin';
-    public string $d = 'parent_D_origin';
-    protected string $e = 'parent_E_origin';
-    private string $f = 'parent_F_origin';
+    public $a = 'parent_A_origin';
+    protected $b = 'parent_B_origin';
+    private $c = 'parent_C_origin';
+    public $d = 'parent_D_origin';
+    protected $e = 'parent_E_origin';
+    private $f = 'parent_F_origin';
 }

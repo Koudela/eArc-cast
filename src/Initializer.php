@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 /**
  * e-Arc Framework - the explicit Architecture Framework
  * cast component
@@ -13,9 +13,9 @@ namespace eArc\Cast;
 
 class Initializer
 {
-    public static CastServiceInterface|null $castService;
+    public static $castService;
 
-    public static function init(?CastServiceInterface $castService = null): CastServiceInterface
+    public static function init($castService = null)
     {
         self::initCastService($castService);
 
@@ -24,8 +24,8 @@ class Initializer
         return self::$castService;
     }
 
-    protected static function initCastService(?CastServiceInterface $castService): void
+    protected static function initCastService($castService)
     {
-        self::$castService = $castService ?? (self::$castService ?? new CastService());
+        self::$castService = !is_null($castService) ? $castService: (!is_null(self::$castService) ? self::$castService : new CastService());
     }
 }

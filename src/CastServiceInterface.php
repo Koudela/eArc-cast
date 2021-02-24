@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 /**
  * e-Arc Framework - the explicit Architecture Framework
  * cast component
@@ -22,7 +22,7 @@ interface CastServiceInterface
      *
      * @return object
      */
-    public function cast(array|object $origin, string|object $target, ?array &$mapping = null): object;
+    public function cast($origin, $target, &$mapping = null);
 
     /**
      * TODO: Description
@@ -31,7 +31,7 @@ interface CastServiceInterface
      *
      * @return array|object
      */
-    public function castReverse(object $object): array|object;
+    public function castReverse($object);
 
     /**
      * TODO: Description
@@ -42,5 +42,5 @@ interface CastServiceInterface
      *
      * @return array|object
      */
-    public function castSimple(array|object $origin, string|array|object $target, ?array &$mapping = null): array|object;
+    public function castSimple($origin, $target, &$mapping = null);
 }

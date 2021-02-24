@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 /**
  * e-Arc Framework - the explicit Architecture Framework
  * cast component

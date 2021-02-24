@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 /**
  * e-Arc Framework - the explicit Architecture Framework
  * cast component
@@ -11,22 +11,22 @@
 
 namespace eArc\Cast;
 
-if (!function_exists('cast')) {
-    function cast(array|object $origin, string|object $target, ?array $mapping = null): object
+if (!function_exists('\eArc\Cast\cast')) {
+    function cast($origin, $target, $mapping = null)
     {
         return Initializer::$castService->cast($origin, $target, $mapping);
     }
 }
 
-if (!function_exists('cast_reverse')) {
-    function cast_reverse(object $object): array|object
+if (!function_exists('\eArc\Cast\cast_reverse')) {
+    function cast_reverse($object)
     {
         return Initializer::$castService->castReverse($object);
     }
 }
 
-if (!function_exists('cast_simple')) {
-    function cast_simple(array|object $origin, string|array|object $target, ?array $mapping = null): array|object
+if (!function_exists('\eArc\Cast\cast_simple')) {
+    function cast_simple($origin, $target, $mapping = null)
     {
         return Initializer::$castService->castSimple($origin, $target, $mapping);
     }

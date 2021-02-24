@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 /**
  * e-Arc Framework - the explicit Architecture Framework
  * cast component
@@ -13,10 +13,10 @@ namespace eArc\CastTests;
 
 class TargetParent
 {
-    public string $d = 'parent_D_target';
-    protected string $e = 'parent_E_target';
-    private string $f = 'parent_F_target';
-    public string $g = 'parent_G_target';
-    protected string $h = 'parent_H_target';
-    private string $i = 'parent_I_target';
+    public $d = 'parent_D_target';
+    protected $e = 'parent_E_target';
+    private $f = 'parent_F_target';
+    public $g = 'parent_G_target';
+    protected $h = 'parent_H_target';
+    private $i = 'parent_I_target';
 }

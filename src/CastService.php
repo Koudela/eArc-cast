@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 /**
  * e-Arc Framework - the explicit Architecture Framework
  * cast component
@@ -16,34 +16,41 @@ use ReflectionClass;
 class CastService implements CastServiceInterface
 {
     /** @var <object|array>[][] */
-    protected array $references = [];
+    protected $references = [];
     /** @var <string|null>[][] */
-    protected array $mappings = [];
+    protected $mappings = [];
 
-    public function cast(array|object $origin, string|object $target, ?array &$mapping = null): object
+    /**
+     * @param array|object $origin
+     * @param string|object $target
+     * @param array|null $mapping
+     *
+     * @return object
+     */
+    public function cast($origin, $target, &$mapping = null)
     {
         $target = $this->castSimple($origin, $target, $mapping);
 
-        $this->references[spl_object_id($target)][] = $origin;
-        $this->mappings[spl_object_id($target)][] = $mapping;
+        $this->references[spl_object_hash($target)][] = $origin;
+        $this->mappings[spl_object_hash($target)][] = $mapping;
 
         return $target;
     }
 
-    public function castReverse(object $object): array|object
+    public function castReverse($object)
     {
-        if (!array_key_exists(spl_object_id($object), $this->references) || empty($this->references[spl_object_id($object)])) {
+        if (!array_key_exists(spl_object_hash($object), $this->references) || empty($this->references[spl_object_hash($object)])) {
             return $object;
         }
 
-        $target = array_pop($this->references[spl_object_id($object)]);
-        $mapping = array_pop($this->mappings[spl_object_id($object)]);
+        $target = array_pop($this->references[spl_object_hash($object)]);
+        $mapping = array_pop($this->mappings[spl_object_hash($object)]);
         $mapping = $this->reverseMapping($mapping);
 
         return $this->castSimple($object, $target, $mapping);
     }
 
-    public function castSimple(array|object $origin, string|array|object $target, ?array &$mapping = null): array|object
+    public function castSimple($origin, $target, &$mapping = null)
     {
         if (is_null($mapping)) {
             $mapping = $this->generateMapping($target);
@@ -58,7 +65,7 @@ class CastService implements CastServiceInterface
         return $this->castToObject($values, $target);
     }
 
-    protected function generateMapping(string|array|object $target): array
+    protected function generateMapping($target)
     {
         $mapping = [];
 
@@ -81,7 +88,7 @@ class CastService implements CastServiceInterface
         return $mapping;
     }
 
-    protected function reverseMapping(array $mapping): array
+    protected function reverseMapping(array $mapping)
     {
         $reversedMapping = [];
 
@@ -92,7 +99,7 @@ class CastService implements CastServiceInterface
         return $reversedMapping;
     }
 
-    protected function getValues(array|object $origin, array $mapping): array
+    protected function getValues($origin, array $mapping)
     {
         $values = [];
 
@@ -115,7 +122,7 @@ class CastService implements CastServiceInterface
         return $values;
     }
 
-    protected function addValuesFromReflection(ReflectionClass $originReflection, array &$values, object $origin, array $mapping)
+    protected function addValuesFromReflection(ReflectionClass $originReflection, array &$values, $origin, array $mapping)
     {
         foreach ($originReflection->getProperties() as $property) {
             if (array_key_exists($property->getName(), $mapping)) {
@@ -128,7 +135,7 @@ class CastService implements CastServiceInterface
         }
     }
 
-    protected function castToArray(array $values, array $target): array
+    protected function castToArray(array $values, array $target)
     {
         foreach ($values as $key => $value)
         {
@@ -138,7 +145,7 @@ class CastService implements CastServiceInterface
         return $target;
     }
 
-    protected function castToObject(array $values, string|object $target): object
+    protected function castToObject($values, $target)
     {
         $targetReflection = new ReflectionClass($target);
 
@@ -153,7 +160,7 @@ class CastService implements CastServiceInterface
         return $target;
     }
 
-    protected function addValuesToReflection(ReflectionClass $targetReflection, object $target, array $values)
+    protected function addValuesToReflection(ReflectionClass $targetReflection, $target, array $values)
     {
         $properties = $targetReflection->getProperties();
 
