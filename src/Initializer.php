@@ -17,15 +17,10 @@ class Initializer
 
     public static function init(?CastServiceInterface $castService = null): CastServiceInterface
     {
-        self::initCastService($castService);
+        self::$castService = $castService ?? (self::$castService ?? new CastService());
 
         include __DIR__.'/declare_functions.php';
 
         return self::$castService;
-    }
-
-    protected static function initCastService(?CastServiceInterface $castService): void
-    {
-        self::$castService = $castService ?? (self::$castService ?? new CastService());
     }
 }

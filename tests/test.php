@@ -2,6 +2,6 @@
 
 include __DIR__.'/../vendor/autoload.php';
 
-\eArc\Cast\Initializer::initGlobal();
+\eArc\Cast\Initializer::init();
 
-cast_simple([],[]);
+dump(\eArc\Cast\cast_simple(new \eArc\CastTests\Origin(),[]));

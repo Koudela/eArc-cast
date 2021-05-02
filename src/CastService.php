@@ -20,8 +20,12 @@ class CastService implements CastServiceInterface
     /** @var <string|null>[][] */
     protected array $mappings = [];
 
-    public function cast(array|object $origin, string|object $target, ?array &$mapping = null): object
+    public function cast(array|object $origin, string|object $target, ?array $mapping = null): object
     {
+        if (is_null($mapping)) {
+            $mapping = $this->generateMapping($target);
+        }
+
         $target = $this->castSimple($origin, $target, $mapping);
 
         $this->references[spl_object_id($target)][] = $origin;
@@ -43,7 +47,7 @@ class CastService implements CastServiceInterface
         return $this->castSimple($object, $target, $mapping);
     }
 
-    public function castSimple(array|object $origin, string|array|object $target, ?array &$mapping = null): array|object
+    public function castSimple(array|object $origin, string|array|object $target, ?array $mapping = null): array|object
     {
         if (is_null($mapping)) {
             $mapping = $this->generateMapping($target);
@@ -58,7 +62,7 @@ class CastService implements CastServiceInterface
         return $this->castToObject($values, $target);
     }
 
-    protected function generateMapping(string|array|object $target): array
+    public function generateMapping(string|array|object $target): array
     {
         $mapping = [];
 

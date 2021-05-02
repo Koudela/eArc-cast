@@ -17,6 +17,7 @@ use PHPUnit\Framework\TestCase;
 use function eArc\Cast\cast;
 use function eArc\Cast\cast_reverse;
 use function eArc\Cast\cast_simple;
+use function eArc\Cast\generate_mapping;
 
 class IntegrationTest extends TestCase
 {
@@ -42,10 +43,10 @@ class IntegrationTest extends TestCase
         $result = cast_simple($origin, $target);
         self::assertEquals([10, 2, 3, 'd' => 'D'], $result);
 
-        $mapping = ['a' => null, 'b' => 'd'];
+        $mapping = ['a' => null, 'c' => 'c', 'b' => 'd'];
 
         $result = cast_simple($origin, $target, $mapping);
-        self::assertEquals([1, 2, 3, 'a' => 'A', 'd' => 'B'], $result);
+        self::assertEquals([1, 2, 3, 'a' => 'A', 'd' => 'B', 'c' => 'C'], $result);
     }
 
     public function testObjectToObject()
@@ -228,5 +229,25 @@ class IntegrationTest extends TestCase
             'e' => '2',
             'f' => '3',
         ], cast_simple($result, [], self::COMPLETE_OBJECT_MAP));
+    }
+
+    public function testGenerateMapping()
+    {
+        Initializer::init();
+
+        $origin = new Origin();
+        $target = [];
+        $result = cast_simple($origin, $target);
+        self::assertEquals([], $result);
+
+        $result = cast_simple($origin, $target, generate_mapping($origin));
+        self::assertEquals([
+            'a' => 'A_origin',
+            'b' => 'B_origin',
+            'c' => 'C_origin',
+            'd' => 'parent_D_origin',
+            'e' => 'parent_E_origin',
+            'f' => 'parent_F_origin',
+        ], $result);
     }
 }
